@@ -13,7 +13,7 @@ import apkutils2 as apkutils
 from asyncadb import adb
 from device_names import device_names
 from core.freeport import freeport
-from core.utils import current_ip
+from core.utils import current_ip,get_file_md5
 from core import fetching
 
 STATUS_INIT = "init"
@@ -86,7 +86,7 @@ class AndroidDevice(object):
 
         stf_zippath = fetching.get_stf_binaries()
         zip_folder, _ = os.path.splitext(os.path.basename(stf_zippath))
-        prefix = zip_folder + "/node_modules/minicap-prebuilt/prebuilt/"
+        prefix = zip_folder + "/node_modules/minicap-prebuilt-beta/prebuilt/"
         self._push_stf(prefix + abi + "/lib/android-" + sdk + "/minicap.so",
                        "/data/local/tmp/minicap.so",
                        mode=0o644,
@@ -147,7 +147,7 @@ class AndroidDevice(object):
             m = apkutils.APK(path).manifest
             info = self._device.package_info(m.package_name)
             if info and m.version_code == info[
-                    'version_code'] and m.version_name == info['version_name']:
+                'version_code'] and m.version_name == info['version_name']:
                 logger.debug("%s already installed %s", self, path)
             else:
                 print(info, ":", m.version_code, m.version_name)

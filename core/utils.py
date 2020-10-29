@@ -6,6 +6,7 @@ import random
 import re
 import socket
 import string
+import hashlib
 
 
 def current_ip():
@@ -25,6 +26,13 @@ def update_recursive(d: dict, u: dict) -> dict:
             d[k] = v
     return d
 
+def get_file_md5(filePath):
+    """ 获取文件的md5值 """
+    with open(filePath, 'rb') as file:
+        md5obj = hashlib.md5()
+        md5obj.update(file.read)
+        _hash = md5obj.hexdigest()
+    return str(_hash).lower()
 
 def fix_url(url, scheme=None):
     if not re.match(r"^(http|ws)s?://", url):
